@@ -14,7 +14,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 		{
 			ModuleWeaver weavingTask = new ModuleWeaver();
 
-			ModuleWeaverTests.TestResult = weavingTask.ExecuteTestRun("MethodCache.Fody.TestAssembly.dll");
+			ModuleWeaverTests.TestResult = weavingTask.ExecuteTestRun("SpatialFocus.MethodCache.Fody.TestAssembly.dll");
 		}
 
 		private static TestResult TestResult { get; }
