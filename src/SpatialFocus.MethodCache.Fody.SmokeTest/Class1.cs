@@ -2,7 +2,7 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.TestAssembly
+namespace SpatialFocus.MethodCache.Fody.SmokeTest
 {
 	using System;
 

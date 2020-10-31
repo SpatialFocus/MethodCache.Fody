@@ -17,6 +17,19 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public override void Execute()
 		{
+			TypeDefinition findTypeDefinition = FindTypeDefinition("System.Tuple`1");
+			MethodDefinition methodDefinition = findTypeDefinition.GetConstructors().Single();
+			MethodReference makeHostInstanceGeneric = methodDefinition.MakeHostInstanceGeneric(TypeSystem.StringReference);
+			MethodReference importReference = ModuleDefinition.ImportReference(makeHostInstanceGeneric);
+
+			TypeDefinition typeDefinition = ModuleDefinition.Types.Single(x => x.Name == "Class1");
+			MethodBody methodBody = typeDefinition.Methods.Single(x => x.Name == "Method2").Body;
+			ILProcessor ilProcessor = methodBody.GetILProcessor();
+			Instruction instruction = methodBody.Instructions.Last();
+			ilProcessor.InsertBefore(instruction, ilProcessor.Create(OpCodes.Ldstr, "a"));
+			ilProcessor.InsertBefore(instruction, ilProcessor.Create(OpCodes.Newobj, importReference));
+			ilProcessor.InsertBefore(instruction, ilProcessor.Create(OpCodes.Pop));
+
 			// Create type definition
 			TypeDefinition attributeTypeDefinition = FindTypeDefinition("System.Attribute");
 			TypeDefinition myAttributeTypeDefinition = new TypeDefinition("MyNamespace", "MyAttribute", TypeAttributes.Public,
