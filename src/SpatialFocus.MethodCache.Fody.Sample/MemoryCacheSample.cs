@@ -23,7 +23,7 @@ namespace SpatialFocus.MethodCache.Fody.Sample
 
 		public int AddCached(int a, int b)
 		{
-			Tuple<string, int, int> key = new Tuple<string, int, int>("SpatialFocus.MethodCache.Fody.Sample", a, b);
+			Tuple<string, int, int> key = new Tuple<string, int, int>($"SpatialFocus.MethodCache.Fody.Sample.MemoryCacheSample.AddCached", a, b);
 			int result;
 
 			if (MemoryCache.TryGetValue(key, out result))

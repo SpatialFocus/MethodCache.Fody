@@ -28,7 +28,7 @@ namespace SpatialFocus.MethodCache.Fody.Sample
 
 		public async Task<int> AddCache(int a, int b)
 		{
-			string key = $"SpatialFocus.MethodCache.Fody.Sample.{a}_{b}";
+			string key = $"SpatialFocus.MethodCache.Fody.Sample.DistributedCacheSample.AddCache_{a}_{b}";
 			int result;
 
 			byte[] data = await DistributedCache.GetAsync(key);
