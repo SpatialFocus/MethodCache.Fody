@@ -6,6 +6,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 {
 	using System;
 	using global::Fody;
+	using SpatialFocus.MethodCache.Fody.Tests.Mock;
 	using Xunit;
 
 	public class ModuleWeaverTests
@@ -21,11 +22,51 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 		private static TestResult TestResult { get; }
 
 		[Fact]
-		public void ValidateMyAttributeIsInjected()
+		public void BasicTest1CreateAndGet()
 		{
-			Type type = ModuleWeaverTests.TestResult.Assembly.GetType("MyNamespace.MyAttribute");
+			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			Assert.NotNull(type);
+			Type type = ModuleWeaverTests.TestResult.Assembly.GetType("SpatialFocus.MethodCache.Fody.TestAssembly.BasicTestClass");
+			dynamic instance = (dynamic)Activator.CreateInstance(type, mockMemoryCache);
+
+			dynamic result = instance.Add(1, 2);
+
+			Assert.Equal(3, result);
+			Assert.Equal(1, mockMemoryCache.CountSets);
+			Assert.Equal(1, mockMemoryCache.CountGets);
+		}
+
+		[Fact]
+		public void BasicTest2CreateAndGet2()
+		{
+			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+
+			Type type = ModuleWeaverTests.TestResult.Assembly.GetType("SpatialFocus.MethodCache.Fody.TestAssembly.BasicTestClass");
+			dynamic instance = (dynamic)Activator.CreateInstance(type, mockMemoryCache);
+
+			dynamic result = instance.Add(1, 2);
+			result = instance.Add(1, 2);
+
+			Assert.Equal(3, result);
+			Assert.Equal(1, mockMemoryCache.CountSets);
+			Assert.Equal(2, mockMemoryCache.CountGets);
+		}
+
+		[Fact]
+		public void BasicTest3Create2AndGet2()
+		{
+			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+
+			Type type = ModuleWeaverTests.TestResult.Assembly.GetType("SpatialFocus.MethodCache.Fody.TestAssembly.BasicTestClass");
+			dynamic instance = (dynamic)Activator.CreateInstance(type, mockMemoryCache);
+
+			dynamic result1 = instance.Add(1, 2);
+			dynamic result2 = instance.Add(2, 2);
+
+			Assert.Equal(3, result1);
+			Assert.Equal(4, result2);
+			Assert.Equal(2, mockMemoryCache.CountSets);
+			Assert.Equal(2, mockMemoryCache.CountGets);
 		}
 	}
 }
