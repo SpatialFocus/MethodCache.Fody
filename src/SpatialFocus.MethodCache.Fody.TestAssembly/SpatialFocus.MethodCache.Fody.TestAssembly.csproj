@@ -5,4 +5,8 @@
 		<DisableFody>true</DisableFody>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.9" />
+	</ItemGroup>
+
 </Project>

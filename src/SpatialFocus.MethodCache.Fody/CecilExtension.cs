@@ -4,11 +4,34 @@
 
 namespace SpatialFocus.MethodCache.Fody
 {
+	using System;
 	using Mono.Cecil;
 	using Mono.Cecil.Rocks;
 
 	public static class CecilExtension
 	{
+		public static MethodReference MakeGeneric(this MethodReference method, params TypeReference[] arguments)
+		{
+			if (method.GenericParameters.Count != arguments.Length)
+			{
+				throw new ArgumentException("Invalid number of generic type arguments supplied");
+			}
+
+			if (arguments.Length == 0)
+			{
+				return method;
+			}
+
+			GenericInstanceMethod genericTypeReference = new GenericInstanceMethod(method);
+
+			foreach (TypeReference argument in arguments)
+			{
+				genericTypeReference.GenericArguments.Add(argument);
+			}
+
+			return genericTypeReference;
+		}
+
 		public static MethodReference MakeHostInstanceGeneric(this MethodReference self, params TypeReference[] args)
 		{
 			MethodReference reference = new MethodReference(self.Name, self.ReturnType, self.DeclaringType.MakeGenericInstanceType(args))

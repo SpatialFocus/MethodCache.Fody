@@ -5,16 +5,25 @@
 namespace SpatialFocus.MethodCache.Fody.TestAssembly
 {
 	using System;
+	using Microsoft.Extensions.Caching.Memory;
 
-	public class Class1<TClass>
+	public class Class1
 	{
-		public void Method1()
+		public Class1(IMemoryCache memoryCache)
 		{
-			new Tuple<string>("1");
+			MemoryCache = memoryCache;
 		}
 
-		public void Method2<TMethod>(int a, string b, double c, float d, object e, Type f)
+		public IMemoryCache MemoryCache { get; }
+
+		public int Method1(int a, int b)
 		{
+			return a + b;
+		}
+
+		public int Method2<TMethod>(int a, string b, double c, float d, object e, Type f)
+		{
+			return 2;
 		}
 	}
 }
