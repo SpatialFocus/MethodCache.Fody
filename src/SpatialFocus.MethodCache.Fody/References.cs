@@ -55,8 +55,7 @@ namespace SpatialFocus.MethodCache.Fody
 			references.TryGetValueMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x => x.Name == "TryGetValue"));
 
-			// TODO: Find the "Single" Method with only TItem parameter (or set timeout, etc.)
-			references.SetMethod = moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.First(x => x.Name == "Set"));
+			references.SetMethod = moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x => x.Name == "Set" && x.HasParameters && x.Parameters.Count == 3));
 
 			return references;
 		}
