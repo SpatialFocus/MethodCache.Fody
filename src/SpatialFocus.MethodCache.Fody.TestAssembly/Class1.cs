@@ -7,6 +7,7 @@ namespace SpatialFocus.MethodCache.Fody.TestAssembly
 	using System;
 	using Microsoft.Extensions.Caching.Memory;
 
+	[Cache]
 	public class Class1
 	{
 		public Class1(IMemoryCache memoryCache)

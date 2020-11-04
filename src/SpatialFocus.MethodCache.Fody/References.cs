@@ -7,6 +7,7 @@ namespace SpatialFocus.MethodCache.Fody
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Runtime.CompilerServices;
 	using Mono.Cecil;
 	using Mono.Cecil.Rocks;
 
@@ -17,7 +18,11 @@ namespace SpatialFocus.MethodCache.Fody
 			ModuleWeaver = moduleWeaver;
 		}
 
+		public TypeReference CacheAttributeType { get; set; }
+
 		public TypeReference CacheExtensionsType { get; protected set; }
+
+		public TypeReference CompilerGeneratedAttributeType { get; set; }
 
 		public MethodReference GetTypeFromHandleMethod { get; protected set; }
 
@@ -40,8 +45,14 @@ namespace SpatialFocus.MethodCache.Fody
 
 			References references = new References(moduleWeaver);
 
+			TypeDefinition cacheAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.CacheAttribute");
+			references.CacheAttributeType = moduleWeaver.ModuleDefinition.ImportReference(cacheAttributeType);
+
 			TypeDefinition type = moduleWeaver.FindTypeDefinition(typeof(Type).FullName);
 			references.TypeType = moduleWeaver.ModuleDefinition.ImportReference(type);
+
+			TypeDefinition compilerGeneratedAttributeType = moduleWeaver.FindTypeDefinition(typeof(CompilerGeneratedAttribute).FullName);
+			references.CompilerGeneratedAttributeType = moduleWeaver.ModuleDefinition.ImportReference(compilerGeneratedAttributeType);
 
 			references.GetTypeFromHandleMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(type.Methods.Single(x => x.Name == nameof(Type.GetTypeFromHandle)));

@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FodyHelpers" Version="6.3.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -17,6 +18,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SpatialFocus.MethodCache.Fody.TestAssembly\SpatialFocus.MethodCache.Fody.TestAssembly.csproj" />
 		<ProjectReference Include="..\SpatialFocus.MethodCache.Fody\SpatialFocus.MethodCache.Fody.csproj" />
+		<ProjectReference Include="..\SpatialFocus.MethodCache\SpatialFocus.MethodCache.csproj" />
 	</ItemGroup>
 
 </Project>
