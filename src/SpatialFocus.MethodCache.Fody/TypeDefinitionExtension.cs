@@ -44,6 +44,11 @@ namespace SpatialFocus.MethodCache.Fody
 					TypeDefinition propertyTypeDefinition = propertyDefinition.PropertyType.Resolve();
 					TypeDefinition memoryCacheInterface = references.MemoryCacheInterface.Resolve();
 
+					if (propertyDefinition.GetMethod.IsStatic)
+					{
+						return false;
+					}
+
 					if (propertyTypeDefinition.IsInterface && propertyTypeDefinition.Equals(memoryCacheInterface))
 					{
 						return true;

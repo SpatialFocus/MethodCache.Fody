@@ -55,6 +55,11 @@ namespace SpatialFocus.MethodCache.Fody
 					TypeDefinition typeDefinition = definition.PropertyType.Resolve();
 					TypeDefinition memoryCacheInterface = classWeavingContext.References.MemoryCacheInterface.Resolve();
 
+					if (definition.GetMethod.IsStatic)
+					{
+						return false;
+					}
+
 					if (typeDefinition.IsInterface && typeDefinition.Equals(memoryCacheInterface))
 					{
 						return true;
@@ -76,33 +81,6 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 
 			return propertyDefinitions.Single().GetMethod;
-		}
-
-		public static void WeaveTryGetValueAndReturn(MethodWeavingContext methodWeavingContext,
-			ILProcessorContext processorContext)
-		{
-			if (methodWeavingContext == null)
-			{
-				throw new ArgumentNullException(nameof(methodWeavingContext));
-			}
-
-			if (processorContext == null)
-			{
-				throw new ArgumentNullException(nameof(processorContext));
-			}
-
-			processorContext = processorContext.Append(x => x.Create(OpCodes.Ldarg_0))
-				.Append(x => x.Create(OpCodes.Call, methodWeavingContext.ClassWeavingContext.CacheGetterMethod))
-				.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.CacheKeyVariableIndex.Value))
-				.Append(x => x.Create(OpCodes.Ldloca, methodWeavingContext.ResultVariableIndex.Value))
-				.Append(x => x.Create(OpCodes.Call,
-					methodWeavingContext.ClassWeavingContext.References.GetTryGetValue(methodWeavingContext.MethodDefinition.ReturnType)));
-
-			Instruction instructionNext = processorContext.CurrentInstruction.Next;
-
-			processorContext.Append(x => x.Create(OpCodes.Brfalse, instructionNext))
-				.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.ResultVariableIndex.Value))
-				.Append(x => x.Create(OpCodes.Ret));
 		}
 
 		public static ILProcessorContext WeaveCreateKey(MethodWeavingContext methodWeavingContext)
@@ -169,6 +147,32 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 		}
 
+		public static void WeaveTryGetValueAndReturn(MethodWeavingContext methodWeavingContext, ILProcessorContext processorContext)
+		{
+			if (methodWeavingContext == null)
+			{
+				throw new ArgumentNullException(nameof(methodWeavingContext));
+			}
+
+			if (processorContext == null)
+			{
+				throw new ArgumentNullException(nameof(processorContext));
+			}
+
+			processorContext = processorContext.Append(x => x.Create(OpCodes.Ldarg_0))
+				.Append(x => x.Create(OpCodes.Call, methodWeavingContext.ClassWeavingContext.CacheGetterMethod))
+				.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.CacheKeyVariableIndex.Value))
+				.Append(x => x.Create(OpCodes.Ldloca, methodWeavingContext.ResultVariableIndex.Value))
+				.Append(x => x.Create(OpCodes.Call,
+					methodWeavingContext.ClassWeavingContext.References.GetTryGetValue(methodWeavingContext.MethodDefinition.ReturnType)));
+
+			Instruction instructionNext = processorContext.CurrentInstruction.Next;
+
+			processorContext.Append(x => x.Create(OpCodes.Brfalse, instructionNext))
+				.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.ResultVariableIndex.Value))
+				.Append(x => x.Create(OpCodes.Ret));
+		}
+
 		private static string CreateCacheKeyMethodName(MethodDefinition methodDefinition)
 		{
 			if (methodDefinition == null)
@@ -233,7 +237,7 @@ namespace SpatialFocus.MethodCache.Fody
 			if (typeReferences.Length == 8 && remainingTupleTypeReferencesCount > 8)
 			{
 				remainingTupleTypeReferencesCount -= 7;
-				return CreateTupleConstructorCalls(methodWeavingContext, processorContext,
+				return MemoryCache.CreateTupleConstructorCalls(methodWeavingContext, processorContext,
 					(GenericInstanceType)typeReferences.Last(), remainingTupleTypeReferencesCount);
 			}
 
