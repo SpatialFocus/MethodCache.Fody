@@ -17,18 +17,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Fo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{674F705E-E459-490B-B536-3F750485AE33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Fody.TestAssembly", "src\SpatialFocus.MethodCache.Fody.TestAssembly\SpatialFocus.MethodCache.Fody.TestAssembly.csproj", "{8DBE75D4-F0FA-4412-8397-9A6B6978229F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.TestAssembly", "src\SpatialFocus.MethodCache.TestAssembly\SpatialFocus.MethodCache.TestAssembly.csproj", "{8DBE75D4-F0FA-4412-8397-9A6B6978229F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Fody.Tests", "src\SpatialFocus.MethodCache.Fody.Tests\SpatialFocus.MethodCache.Fody.Tests.csproj", "{73E41A4A-EAC4-4E6D-84BB-14974366E7BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Tests", "src\SpatialFocus.MethodCache.Tests\SpatialFocus.MethodCache.Tests.csproj", "{73E41A4A-EAC4-4E6D-84BB-14974366E7BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Fody.Sample", "src\SpatialFocus.MethodCache.Fody.Sample\SpatialFocus.MethodCache.Fody.Sample.csproj", "{A606327D-AAFC-451F-9195-960B1B9092AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Sample", "src\SpatialFocus.MethodCache.Sample\SpatialFocus.MethodCache.Sample.csproj", "{A606327D-AAFC-451F-9195-960B1B9092AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Fody.SmokeTest", "src\SpatialFocus.MethodCache.Fody.SmokeTest\SpatialFocus.MethodCache.Fody.SmokeTest.csproj", "{C47814DC-272E-4FB8-A97C-2B6C75F60C76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.SmokeTest", "src\SpatialFocus.MethodCache.SmokeTest\SpatialFocus.MethodCache.SmokeTest.csproj", "{C47814DC-272E-4FB8-A97C-2B6C75F60C76}"
 	ProjectSection(ProjectDependencies) = postProject
 		{81703F57-025F-42C4-AE8B-568E2F56CCE2} = {81703F57-025F-42C4-AE8B-568E2F56CCE2}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialFocus.MethodCache", "src\SpatialFocus.MethodCache\SpatialFocus.MethodCache.csproj", "{88A8C843-A479-42B8-AAF6-8F816C660515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache", "src\SpatialFocus.MethodCache\SpatialFocus.MethodCache.csproj", "{88A8C843-A479-42B8-AAF6-8F816C660515}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

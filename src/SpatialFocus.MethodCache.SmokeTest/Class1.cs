@@ -2,11 +2,12 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.SmokeTest
+namespace SpatialFocus.MethodCache.SmokeTest
 {
 	using System;
 	using Microsoft.Extensions.Caching.Memory;
 
+	[Cache]
 	public class Class1
 	{
 		public Class1(IMemoryCache memoryCache)

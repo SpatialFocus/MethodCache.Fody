@@ -2,7 +2,7 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.Tests.Mock
+namespace SpatialFocus.MethodCache.Tests.Mock
 {
 	using System.Collections.Generic;
 	using Microsoft.Extensions.Caching.Memory;

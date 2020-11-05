@@ -2,7 +2,7 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.Tests
+namespace SpatialFocus.MethodCache.Tests
 {
 	using System;
 	using System.Reflection;

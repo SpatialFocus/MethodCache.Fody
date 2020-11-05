@@ -2,12 +2,13 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.Tests
+namespace SpatialFocus.MethodCache.Tests
 {
 	using System.Runtime.CompilerServices;
 	using global::Fody;
-	using SpatialFocus.MethodCache.Fody.TestAssembly;
-	using SpatialFocus.MethodCache.Fody.Tests.Mock;
+	using SpatialFocus.MethodCache.Fody;
+	using SpatialFocus.MethodCache.TestAssembly;
+	using SpatialFocus.MethodCache.Tests.Mock;
 	using Xunit;
 
 	public class ModuleWeaverTests
@@ -17,7 +18,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 			ModuleWeaver weavingTask = new ModuleWeaver();
 
 			ModuleWeaverTests.TestResult =
-				weavingTask.ExecuteTestRun("SpatialFocus.MethodCache.Fody.TestAssembly.dll", ignoreCodes: new[] { "0x80131869" });
+				weavingTask.ExecuteTestRun("SpatialFocus.MethodCache.TestAssembly.dll", ignoreCodes: new[] { "0x80131869" });
 		}
 
 		private static TestResult TestResult { get; }
@@ -83,7 +84,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(1, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.Parameterless", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.Parameterless", key[0]);
 		}
 
 		[Fact]
@@ -102,7 +103,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(2, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.WithParameter", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.WithParameter", key[0]);
 			Assert.Equal(1, key[1]);
 		}
 
@@ -122,7 +123,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(7, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With6Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With6Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -147,7 +148,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(8, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With7Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With7Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -173,7 +174,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(9, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With8Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With8Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -200,7 +201,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(10, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With9Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With9Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -228,7 +229,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(14, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With13Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With13Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -260,7 +261,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(15, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With14Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With14Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);
@@ -293,7 +294,7 @@ namespace SpatialFocus.MethodCache.Fody.Tests
 
 			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
 			Assert.Equal(16, key.Length);
-			Assert.Equal("SpatialFocus.MethodCache.Fody.TestAssembly.MemoryCacheKeyTestClass.With15Parameters", key[0]);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.With15Parameters", key[0]);
 			Assert.Equal(1, key[1]);
 			Assert.Equal(2, key[2]);
 			Assert.Equal(3, key[3]);

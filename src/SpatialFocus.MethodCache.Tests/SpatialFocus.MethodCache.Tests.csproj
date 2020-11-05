@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\SpatialFocus.MethodCache.Fody.TestAssembly\SpatialFocus.MethodCache.Fody.TestAssembly.csproj" />
+		<ProjectReference Include="..\SpatialFocus.MethodCache.TestAssembly\SpatialFocus.MethodCache.TestAssembly.csproj" />
 		<ProjectReference Include="..\SpatialFocus.MethodCache.Fody\SpatialFocus.MethodCache.Fody.csproj" />
 		<ProjectReference Include="..\SpatialFocus.MethodCache\SpatialFocus.MethodCache.csproj" />
 	</ItemGroup>

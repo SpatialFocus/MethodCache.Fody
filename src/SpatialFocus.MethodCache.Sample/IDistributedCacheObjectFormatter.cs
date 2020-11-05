@@ -2,7 +2,7 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody.Sample
+namespace SpatialFocus.MethodCache.Sample
 {
 	public interface IDistributedCacheObjectFormatter
 	{
