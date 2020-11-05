@@ -18,9 +18,11 @@ namespace SpatialFocus.MethodCache.Sample.Library
 		// MethodCache.Fody will look for a property implementing the IMemoryCache
 		protected IMemoryCache MemoryCache { get; }
 
+#pragma warning disable CA1822 // Mark members as static
 		public int Add(int a, int b)
 		{
 			return a + b;
 		}
+#pragma warning restore CA1822 // Mark members as static
 	}
 }

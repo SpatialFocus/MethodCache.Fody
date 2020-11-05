@@ -16,9 +16,11 @@ namespace SpatialFocus.MethodCache.TestAssembly
 
 		public IMemoryCache MemoryCache { get; }
 
+#pragma warning disable CA1822 // Mark members as static
 		public int Add(int a, int b)
 		{
 			return a + b;
 		}
+#pragma warning restore CA1822 // Mark members as static
 	}
 }

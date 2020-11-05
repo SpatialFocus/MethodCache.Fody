@@ -18,8 +18,6 @@ namespace SpatialFocus.MethodCache.Sample.Library
 
 		public int Add<TMethod1, TMethod2>(int a, int b, int c, int d)
 		{
-			int value;
-
 			// Create a unique cache key, based on namespace, class name and method name as first parameter and corresponding
 			// generic class parameters,generic method parameters and method parameters
 			Tuple<string, Type, Type, Type, Type, int, int, Tuple<int, int>> key =
@@ -28,7 +26,7 @@ namespace SpatialFocus.MethodCache.Sample.Library
 					typeof(TMethod2), a, b, new Tuple<int, int>(c, d));
 
 			// Check and return if a cached value exists for key
-			if (MemoryCache.TryGetValue(key, out value))
+			if (MemoryCache.TryGetValue(key, out int value))
 			{
 				return value;
 			}

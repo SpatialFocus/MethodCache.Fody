@@ -16,6 +16,8 @@ namespace SpatialFocus.MethodCache.TestAssembly
 
 		public IMemoryCache MemoryCache { get; }
 
+#pragma warning disable CA1801 // Review unused parameters
+#pragma warning disable IDE0060 // Remove unused parameter
 		public TClass GenericTClassReturn(TClass a)
 		{
 			return a;
@@ -23,7 +25,7 @@ namespace SpatialFocus.MethodCache.TestAssembly
 
 		public TClass GenericTClassTMethodReturn<TMethod>(TMethod a)
 		{
-			return default(TClass);
+			return default;
 		}
 
 		public TMethod GenericTMethodReturn<TMethod>(TMethod a)
@@ -35,5 +37,7 @@ namespace SpatialFocus.MethodCache.TestAssembly
 		{
 			return a;
 		}
+#pragma warning restore CA1801 // Review unused parameters
+#pragma warning restore IDE0060 // Remove unused parameter
 	}
 }

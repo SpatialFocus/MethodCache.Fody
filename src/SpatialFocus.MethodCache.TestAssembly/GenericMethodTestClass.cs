@@ -16,6 +16,7 @@ namespace SpatialFocus.MethodCache.TestAssembly
 
 		public IMemoryCache MemoryCache { get; }
 
+#pragma warning disable CA1822 // Mark members as static
 		public T GenericReturn<T>(T a)
 		{
 			return a;
@@ -25,5 +26,6 @@ namespace SpatialFocus.MethodCache.TestAssembly
 		{
 			return a;
 		}
+#pragma warning restore CA1822 // Mark members as static
 	}
 }

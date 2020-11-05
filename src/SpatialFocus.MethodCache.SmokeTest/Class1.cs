@@ -17,6 +17,9 @@ namespace SpatialFocus.MethodCache.SmokeTest
 
 		public IMemoryCache MemoryCache { get; }
 
+#pragma warning disable CA1801 // Review unused parameters
+#pragma warning disable CA1822 // Mark members as static
+#pragma warning disable IDE0060 // Remove unused parameter
 		public int Method1(int a, int b)
 		{
 			return a + b;
@@ -26,5 +29,8 @@ namespace SpatialFocus.MethodCache.SmokeTest
 		{
 			return 2;
 		}
+#pragma warning restore CA1801 // Review unused parameters
+#pragma warning restore CA1822 // Mark members as static
+#pragma warning restore IDE0060 // Remove unused parameter
 	}
 }
