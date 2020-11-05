@@ -13,6 +13,8 @@ namespace SpatialFocus.MethodCache.Fody.Tests.Mock
 
 		public int CountSets { get; set; }
 
+		public object LastCreatedEntryKey { get; set; }
+
 		private Dictionary<object, ICacheEntry> Storage { get; } = new Dictionary<object, ICacheEntry>();
 
 		public ICacheEntry CreateEntry(object key)
@@ -26,6 +28,8 @@ namespace SpatialFocus.MethodCache.Fody.Tests.Mock
 
 			MockCacheEntry cacheEntry = new MockCacheEntry();
 			Storage.Add(key, cacheEntry);
+
+			LastCreatedEntryKey = key;
 
 			return cacheEntry;
 		}
