@@ -7,7 +7,7 @@ namespace SpatialFocus.MethodCache.TestAssembly
 	using Microsoft.Extensions.Caching.Memory;
 
 	[Cache]
-	public class GenericTestClass
+	public class GenericTestClass<TClass>
 	{
 		public GenericTestClass(IMemoryCache memoryCache)
 		{
@@ -16,12 +16,22 @@ namespace SpatialFocus.MethodCache.TestAssembly
 
 		public IMemoryCache MemoryCache { get; }
 
-		public int Add(int a, int b)
+		public TClass GenericTClassReturn(TClass a)
 		{
-			return a + b;
+			return a;
 		}
 
-		public T GenericReturn<T>(T a)
+		public TClass GenericTClassTMethodReturn<TMethod>(TMethod a)
+		{
+			return default(TClass);
+		}
+
+		public TMethod GenericTMethodReturn<TMethod>(TMethod a)
+		{
+			return a;
+		}
+
+		public int NonGenericReturn(int a)
 		{
 			return a;
 		}

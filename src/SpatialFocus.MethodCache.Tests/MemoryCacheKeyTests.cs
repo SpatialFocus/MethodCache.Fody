@@ -1,4 +1,4 @@
-﻿// <copyright file="ModuleWeaverTests.cs" company="Spatial Focus GmbH">
+﻿// <copyright file="MemoryCacheKeyTests.cs" company="Spatial Focus GmbH">
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
@@ -11,69 +11,26 @@ namespace SpatialFocus.MethodCache.Tests
 	using SpatialFocus.MethodCache.Tests.Mock;
 	using Xunit;
 
-	public class ModuleWeaverTests
+	[Collection("TestAssembly")]
+	public class MemoryCacheKeyTests
 	{
-		static ModuleWeaverTests()
+		static MemoryCacheKeyTests()
 		{
 			ModuleWeaver weavingTask = new ModuleWeaver();
 
-			ModuleWeaverTests.TestResult =
+			MemoryCacheKeyTests.TestResult =
 				weavingTask.ExecuteTestRun("SpatialFocus.MethodCache.TestAssembly.dll", ignoreCodes: new[] { "0x80131869" });
 		}
 
 		private static TestResult TestResult { get; }
 
 		[Fact]
-		public void BasicTest1CreateAndGet()
-		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
-
-			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
-
-			dynamic result = instance.Add(1, 2);
-
-			Assert.Equal(3, result);
-			Assert.Equal(1, mockMemoryCache.CountSets);
-			Assert.Equal(1, mockMemoryCache.CountGets);
-		}
-
-		[Fact]
-		public void BasicTest2CreateAndGet2()
-		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
-
-			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
-
-			_ = instance.Add(1, 2);
-			dynamic result = instance.Add(1, 2);
-
-			Assert.Equal(3, result);
-			Assert.Equal(1, mockMemoryCache.CountSets);
-			Assert.Equal(2, mockMemoryCache.CountGets);
-		}
-
-		[Fact]
-		public void BasicTest3Create2AndGet2()
-		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
-
-			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
-
-			dynamic result1 = instance.Add(1, 2);
-			dynamic result2 = instance.Add(2, 2);
-
-			Assert.Equal(3, result1);
-			Assert.Equal(4, result2);
-			Assert.Equal(2, mockMemoryCache.CountSets);
-			Assert.Equal(2, mockMemoryCache.CountGets);
-		}
-
-		[Fact]
 		public void CacheKeyTest1Parameterless()
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.Parameterless();
 
@@ -92,7 +49,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.WithParameter(1);
 
@@ -112,7 +70,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With6Parameters(1, 2, 3, 4, 5, 6);
 
@@ -137,7 +96,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With7Parameters(1, 2, 3, 4, 5, 6, 7);
 
@@ -163,7 +123,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With8Parameters(1, 2, 3, 4, 5, 6, 7, 8);
 
@@ -190,7 +151,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With9Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -218,7 +180,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With13Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
 
@@ -250,7 +213,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With14Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
 
@@ -283,7 +247,8 @@ namespace SpatialFocus.MethodCache.Tests
 		{
 			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
 
-			dynamic instance = TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
 
 			dynamic result = instance.With15Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
 
@@ -310,34 +275,6 @@ namespace SpatialFocus.MethodCache.Tests
 			Assert.Equal(13, key[13]);
 			Assert.Equal(14, key[14]);
 			Assert.Equal(15, key[15]);
-		}
-
-		[Fact]
-		public void GenericTest1CreateAndGet()
-		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
-
-			dynamic instance = TestHelpers.CreateInstance<GenericTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
-
-			dynamic result1 = instance.Add(1, 2);
-
-			Assert.Equal(3, result1);
-			Assert.Equal(1, mockMemoryCache.CountSets);
-			Assert.Equal(1, mockMemoryCache.CountGets);
-		}
-
-		[Fact]
-		public void GenericTest2CreateAndGetFromGenericMethod()
-		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
-
-			dynamic instance = TestHelpers.CreateInstance<GenericTestClass>(ModuleWeaverTests.TestResult.Assembly, mockMemoryCache);
-
-			dynamic result1 = instance.GenericReturn<int>(1);
-
-			Assert.Equal(1, result1);
-			Assert.Equal(1, mockMemoryCache.CountSets);
-			Assert.Equal(1, mockMemoryCache.CountGets);
 		}
 	}
 }
