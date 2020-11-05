@@ -29,6 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Sm
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache", "src\SpatialFocus.MethodCache\SpatialFocus.MethodCache.csproj", "{88A8C843-A479-42B8-AAF6-8F816C660515}"
+	ProjectSection(ProjectDependencies) = postProject
+		{81703F57-025F-42C4-AE8B-568E2F56CCE2} = {81703F57-025F-42C4-AE8B-568E2F56CCE2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

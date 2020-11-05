@@ -2,18 +2,38 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Authors>Simon Cropp</Authors>
-		<Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)).</Copyright>
-		<Description>Injects a new type that writes "Hello World".</Description>
+		<Version>1.0.0-alpha1</Version>
+		<Title>A method caching Fody addin.</Title>
+		<Authors>Dresel,pergerch</Authors>
+		<Company>SpatialFocus</Company>
+		<Description>Allows the use of a [Cache] attribute to cache results of method calls of entire classes or only certain methods.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<!-- PackageTags are optional. Defaults to 'ILWeaving, Fody, Cecil, AOP' -->
-		<PackageTags>Hello World, ILWeaving, Fody, Cecil, AOP</PackageTags>
-		<PackageOutputPath>$(SolutionDir)/.nuget</PackageOutputPath>
-		<PackageProjectUrl>https://github.com/Fody/Home/tree/master/BasicFodyAddin</PackageProjectUrl>
-		<PackageIconUrl>https://raw.githubusercontent.com/Fody/Home/master/BasicFodyAddin/package_icon.png</PackageIconUrl>
+		<PackageTags>Caching, ILWeaving, Fody, Cecil, AOP</PackageTags>
+		<PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>
+		<PackageProjectUrl>https://github.com/SpatialFocus/MethodCache.Fody</PackageProjectUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageIconUrl>https://raw.githubusercontent.com/SpatialFocus/MethodCache.Fody/master/docs/icon.png</PackageIconUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/SpatialFocus/MethodCache.Fody.git</RepositoryUrl>
+
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Fody" Version="6.3.0" PrivateAssets="none" />
 		<PackageReference Include="FodyPackaging" Version="6.3.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\docs\icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 </Project>
