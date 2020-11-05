@@ -78,7 +78,7 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new ArgumentNullException(nameof(typeReferences));
 			}
 
-			if (typeReferences.Count <= 8)
+			if (typeReferences.Count <= 7)
 			{
 				return GetSystemTupleType(typeReferences.ToArray());
 			}
@@ -101,8 +101,7 @@ namespace SpatialFocus.MethodCache.Fody
 			TypeDefinition findTypeDefinition = ModuleWeaver.FindTypeDefinition($"System.Tuple`{types.Length}");
 			MethodDefinition methodDefinition = findTypeDefinition.GetConstructors().Single();
 
-			MethodReference makeHostInstanceGeneric = methodDefinition.MakeHostInstanceGeneric(types);
-			return ModuleWeaver.ModuleDefinition.ImportReference(makeHostInstanceGeneric);
+			return ModuleWeaver.ModuleDefinition.ImportReference(methodDefinition).MakeHostInstanceGeneric(types);
 		}
 
 		public TypeReference GetSystemTupleType(params TypeReference[] types)
@@ -113,7 +112,7 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 
 			TypeDefinition findTypeDefinition = ModuleWeaver.FindTypeDefinition($"System.Tuple`{types.Length}");
-			return ModuleWeaver.ModuleDefinition.ImportReference(findTypeDefinition.MakeGenericInstanceType(types));
+			return ModuleWeaver.ModuleDefinition.ImportReference(findTypeDefinition).MakeGenericInstanceType(types);
 		}
 
 		public MethodReference GetTryGetValue(TypeReference type) =>

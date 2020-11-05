@@ -115,8 +115,7 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 
 			return MemoryCache
-				.CreateTupleConstructorCalls(methodWeavingContext, processorContext, (GenericInstanceType)methodWeavingContext.CacheKeyType,
-					methodWeavingContext.CacheKeyParameterTypes.Count)
+				.CreateTupleConstructorCalls(methodWeavingContext, processorContext, (GenericInstanceType)methodWeavingContext.CacheKeyType)
 				.Append(x => x.Create(OpCodes.Stloc, methodWeavingContext.CacheKeyVariableIndex.Value));
 		}
 
@@ -214,7 +213,7 @@ namespace SpatialFocus.MethodCache.Fody
 		}
 
 		private static ILProcessorContext CreateTupleConstructorCalls(MethodWeavingContext methodWeavingContext,
-			ILProcessorContext processorContext, GenericInstanceType tupleType, int remainingTupleTypeReferencesCount)
+			ILProcessorContext processorContext, GenericInstanceType tupleType)
 		{
 			if (methodWeavingContext == null)
 			{
@@ -231,14 +230,12 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new ArgumentNullException(nameof(tupleType));
 			}
 
-			TypeReference[] typeReferences = ((GenericInstanceType)methodWeavingContext.CacheKeyType).GenericArguments.Cast<TypeReference>()
-				.ToArray();
+			TypeReference[] typeReferences = tupleType.GenericArguments.Cast<TypeReference>().ToArray();
 
-			if (typeReferences.Length == 8 && remainingTupleTypeReferencesCount > 8)
+			if (typeReferences.Length == 8)
 			{
-				remainingTupleTypeReferencesCount -= 7;
-				return MemoryCache.CreateTupleConstructorCalls(methodWeavingContext, processorContext,
-					(GenericInstanceType)typeReferences.Last(), remainingTupleTypeReferencesCount);
+				processorContext = MemoryCache.CreateTupleConstructorCalls(methodWeavingContext, processorContext,
+					(GenericInstanceType)typeReferences.Last());
 			}
 
 			MethodReference tupleConstructor =
