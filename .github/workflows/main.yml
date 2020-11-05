@@ -1,0 +1,46 @@
+name: Build & Publish
+
+on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags for this build'
+
+jobs:
+  publish:
+    name: Build, Test, Pack & Release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Fody project
+      run: dotnet build -c Release
+    - name: Run tests
+      run: dotnet test -v=normal
+    - name: Publish NuGet
+      id: publishNuGet
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+        # Filepath of the project to be packaged, relative to root of repository
+        PROJECT_FILE_PATH: src/SpatialFocus.MethodCache/SpatialFocus.MethodCache.csproj
+        # NuGet package id, used for version detection & defaults to project name
+        PACKAGE_NAME: SpatialFocus.MethodCache.Fody
+        # API key to authenticate with NuGet server
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+        INCLUDE_SYMBOLS: true
+    - name: Persist NuGet artifact
+      uses: actions/upload-artifact@v1
+      if: ${{steps.publishNuGet.outputs.PACKAGE_NAME != ''}}
+      with:
+        name: ${{steps.publishNuGet.outputs.PACKAGE_NAME}}
+        path: ${{steps.publishNuGet.outputs.PACKAGE_PATH}}
+    - name: Persist SNuGet artifact
+      uses: actions/upload-artifact@v1
+      if: ${{steps.publishNuGet.outputs.SYMBOLS_PACKAGE_NAME != ''}}
+      with:
+        name: ${{steps.publishNuGet.outputs.SYMBOLS_PACKAGE_NAME}}
+        path: ${{steps.publishNuGet.outputs.SYMBOLS_PACKAGE_PATH}}
