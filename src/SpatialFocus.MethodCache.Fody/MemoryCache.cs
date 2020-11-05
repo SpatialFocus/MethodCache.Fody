@@ -42,7 +42,7 @@ namespace SpatialFocus.MethodCache.Fody
 			methodWeavingContext.CacheKeyVariableIndex = methodWeavingContext.MethodDefinition.Body.Variables.Count - 1;
 		}
 
-		public static MethodDefinition GetCacheGetterMethod(ClassWeavingContext classWeavingContext)
+		public static MethodReference GetCacheGetterMethod(ClassWeavingContext classWeavingContext)
 		{
 			if (classWeavingContext == null)
 			{
@@ -80,7 +80,15 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new WeavingException("Property not found");
 			}
 
-			return propertyDefinitions.Single().GetMethod;
+			MethodDefinition methodDefinition = propertyDefinitions.Single().GetMethod;
+
+			if (methodDefinition.DeclaringType.GenericParameters.Any())
+			{
+				return methodDefinition.MakeHostInstanceGeneric(methodDefinition.DeclaringType.GenericParameters.Cast<TypeReference>()
+					.ToArray());
+			}
+
+			return methodDefinition;
 		}
 
 		public static ILProcessorContext WeaveCreateKey(MethodWeavingContext methodWeavingContext)

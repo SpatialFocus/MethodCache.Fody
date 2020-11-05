@@ -18,6 +18,6 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public TypeDefinition TypeDefinition { get; }
 
-		public MethodDefinition CacheGetterMethod { get; set; }
+		public MethodReference CacheGetterMethod { get; set; }
 	}
 }
