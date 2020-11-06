@@ -32,6 +32,8 @@ jobs:
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
         # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
         INCLUDE_SYMBOLS: true
+        # Format of the git tag, [*] gets replaced with actual version
+        TAG_FORMAT: build_*
     - name: Persist NuGet artifact
       uses: actions/upload-artifact@v1
       if: ${{steps.publishNuGet.outputs.PACKAGE_NAME != ''}}
