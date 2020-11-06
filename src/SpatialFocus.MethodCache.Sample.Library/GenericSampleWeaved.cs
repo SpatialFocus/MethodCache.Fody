@@ -19,7 +19,7 @@ namespace SpatialFocus.MethodCache.Sample.Library
 		public int Add<TMethod1, TMethod2>(int a, int b, int c, int d)
 		{
 			// Create a unique cache key, based on namespace, class name and method name as first parameter and corresponding
-			// generic class parameters,generic method parameters and method parameters
+			// generic class parameters, generic method parameters and method parameters
 			Tuple<string, Type, Type, Type, Type, int, int, Tuple<int, int>> key =
 				new Tuple<string, Type, Type, Type, Type, int, int, Tuple<int, int>>(
 					"SpatialFocus.MethodCache.Sample.Library.BasicSample.Add", typeof(TClass1), typeof(TClass2), typeof(TMethod1),

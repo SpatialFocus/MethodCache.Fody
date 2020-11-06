@@ -2,7 +2,7 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
-namespace SpatialFocus.MethodCache.Fody
+namespace SpatialFocus.MethodCache.Fody.Extensions
 {
 	using System;
 	using System.Linq;

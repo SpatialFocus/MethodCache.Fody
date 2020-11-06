@@ -8,6 +8,7 @@ namespace SpatialFocus.MethodCache.Fody
 	using System.Linq;
 	using global::Fody;
 	using Mono.Cecil;
+	using SpatialFocus.MethodCache.Fody.Extensions;
 
 	public partial class ModuleWeaver : BaseModuleWeaver
 	{
@@ -17,35 +18,34 @@ namespace SpatialFocus.MethodCache.Fody
 		{
 			References references = Fody.References.Init(this);
 
-			// TODO: Extract to method
-			var elementsToCache = ModuleDefinition.Types.Select(type =>
-				{
-					if (type.HasCacheAttribute(references))
-					{
-						return new { Type = type, Methods = type.Methods.ToList() };
-					}
-
-					return new { Type = type, Methods = type.Methods.Where(method => method.HasCacheAttribute(references)).ToList(), };
-				})
-				.Where(x => x.Methods.Any())
-				.ToList();
-
-			foreach (var elementToCache in elementsToCache)
+			foreach (WeavingCandidate weavingCandidate in ModuleDefinition.GetWeavingCandidates(references))
 			{
-				if (!elementToCache.Type.IsEligibleForWeaving(references))
+				if (weavingCandidate.ClassDefinition.HasCacheAttribute(references) && !weavingCandidate.MethodDefinitions.Any(x => x.IsEligibleForWeaving(references)))
 				{
-					// TODO: Create warning
+					WriteWarning($"Class {weavingCandidate.ClassDefinition.Resolve().FullName} contains [Cache] attribute but does not contain eligible methods for caching");
 					continue;
 				}
 
-				ClassWeavingContext classWeavingContext = new ClassWeavingContext(elementToCache.Type, references);
+				if (!weavingCandidate.ClassDefinition.IsEligibleForWeaving(references))
+				{
+					WriteWarning($"Class {weavingCandidate.ClassDefinition.Name} contains [Cache] attribute but does not contain a single non-inherited property implementing IMemoryCache interface");
+					continue;
+				}
+
+				ClassWeavingContext classWeavingContext = new ClassWeavingContext(weavingCandidate.ClassDefinition, references);
 				classWeavingContext.CacheGetterMethod = MemoryCache.GetCacheGetterMethod(classWeavingContext);
 
-				foreach (MethodDefinition methodDefinition in elementToCache.Methods)
+				foreach (MethodDefinition methodDefinition in weavingCandidate.MethodDefinitions)
 				{
 					if (!methodDefinition.IsEligibleForWeaving(references))
 					{
-						// TODO: Create warning if marked explicit for weaving
+						// Show warning if test was marked explicitly
+						if (methodDefinition.HasCacheAttribute(references))
+						{
+							WriteWarning($"Method {methodDefinition.FullName} contains [Cache] attribute but is not eligible for weaving");
+							break;
+						}
+
 						continue;
 					}
 

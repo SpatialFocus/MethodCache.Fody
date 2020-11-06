@@ -10,6 +10,7 @@ namespace SpatialFocus.MethodCache.Fody
 	using System.Runtime.CompilerServices;
 	using Mono.Cecil;
 	using Mono.Cecil.Rocks;
+	using SpatialFocus.MethodCache.Fody.Extensions;
 
 	public class References
 	{

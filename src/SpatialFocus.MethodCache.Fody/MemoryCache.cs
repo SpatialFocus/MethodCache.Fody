@@ -11,6 +11,7 @@ namespace SpatialFocus.MethodCache.Fody
 	using global::Fody;
 	using Mono.Cecil;
 	using Mono.Cecil.Cil;
+	using SpatialFocus.MethodCache.Fody.Extensions;
 
 	public static class MemoryCache
 	{

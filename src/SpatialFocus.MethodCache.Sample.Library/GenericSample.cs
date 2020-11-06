@@ -7,7 +7,6 @@ namespace SpatialFocus.MethodCache.Sample.Library
 	using Microsoft.Extensions.Caching.Memory;
 
 	// MethodCache.Fody will look for classes and methods decorated with the Cache attribute
-	[Cache]
 	public class GenericSample<TClass1, TClass2>
 	{
 		public GenericSample(IMemoryCache memoryCache)
