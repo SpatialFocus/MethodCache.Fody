@@ -5,11 +5,10 @@
 namespace SpatialFocus.MethodCache.Sample
 {
 	using System;
-	using System.Runtime.CompilerServices;
 	using Microsoft.Extensions.Caching.Memory;
 	using Microsoft.Extensions.Logging;
 
-	public class MyMemoryCache : IMemoryCache
+	public sealed class MyMemoryCache : IMemoryCache
 	{
 		public MyMemoryCache(IMemoryCache memoryCache, ILogger<MyMemoryCache> logger)
 		{
@@ -17,9 +16,9 @@ namespace SpatialFocus.MethodCache.Sample
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		protected ILogger<MyMemoryCache> Logger { get; }
+		private ILogger<MyMemoryCache> Logger { get; }
 
-		protected IMemoryCache MemoryCache { get; }
+		private IMemoryCache MemoryCache { get; }
 
 		public ICacheEntry CreateEntry(object key)
 		{
@@ -29,8 +28,7 @@ namespace SpatialFocus.MethodCache.Sample
 
 		public void Dispose()
 		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
+			MemoryCache?.Dispose();
 		}
 
 		public void Remove(object key) => throw new NotImplementedException();
@@ -45,14 +43,6 @@ namespace SpatialFocus.MethodCache.Sample
 
 			Logger.LogInformation("Value for {key} found: {value}", key, value);
 			return true;
-		}
-
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				MemoryCache?.Dispose();
-			}
 		}
 	}
 }

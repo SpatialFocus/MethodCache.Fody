@@ -7,26 +7,16 @@ namespace SpatialFocus.MethodCache.Tests
 	using System;
 	using System.Reflection;
 
-	public class TestHelpers
+	public static class TestHelpers
 	{
-		public static dynamic CreateInstance<T>(Assembly assembly)
-		{
-			return Activator.CreateInstance(TestHelpers.CreateType<T>(assembly));
-		}
-
 		public static dynamic CreateInstance<T>(Assembly assembly, object parameter)
 		{
-			return Activator.CreateInstance(TestHelpers.CreateType<T>(assembly), parameter);
+			return assembly != null ? Activator.CreateInstance(TestHelpers.CreateType<T>(assembly), parameter) : null;
 		}
 
-		public static dynamic CreateInstance<T>(Assembly assembly, object[] parameters)
+		private static Type CreateType<T>(Assembly assembly)
 		{
-			return Activator.CreateInstance(TestHelpers.CreateType<T>(assembly), parameters);
-		}
-
-		public static Type CreateType<T>(Assembly assembly)
-		{
-			return assembly.GetType(typeof(T).FullName);
+			return assembly.GetType(typeof(T).FullName ?? string.Empty);
 		}
 	}
 }

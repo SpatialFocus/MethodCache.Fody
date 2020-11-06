@@ -12,6 +12,11 @@ namespace SpatialFocus.MethodCache.Fody
 	{
 		public static MethodReference MakeGeneric(this MethodReference method, params TypeReference[] arguments)
 		{
+			if (method == null)
+			{
+				throw new ArgumentNullException(nameof(method));
+			}
+
 			if (method.GenericParameters.Count != arguments.Length)
 			{
 				throw new ArgumentException("Invalid number of generic type arguments supplied");
@@ -34,6 +39,11 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public static MethodReference MakeHostInstanceGeneric(this MethodReference self, params TypeReference[] args)
 		{
+			if (self == null)
+			{
+				throw new ArgumentNullException(nameof(self));
+			}
+
 			MethodReference reference = new MethodReference(self.Name, self.ReturnType, self.DeclaringType.MakeGenericInstanceType(args))
 			{
 				HasThis = self.HasThis, ExplicitThis = self.ExplicitThis, CallingConvention = self.CallingConvention,

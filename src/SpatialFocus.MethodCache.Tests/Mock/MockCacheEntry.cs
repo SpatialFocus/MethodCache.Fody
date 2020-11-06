@@ -9,7 +9,7 @@ namespace SpatialFocus.MethodCache.Tests.Mock
 	using Microsoft.Extensions.Caching.Memory;
 	using Microsoft.Extensions.Primitives;
 
-	public class MockCacheEntry : ICacheEntry
+	public sealed class MockCacheEntry : ICacheEntry
 	{
 		public IList<IChangeToken> ExpirationTokens { get; }
 

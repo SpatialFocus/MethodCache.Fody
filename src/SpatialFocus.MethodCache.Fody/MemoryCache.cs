@@ -129,6 +129,11 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public static void WeaveSetBeforeReturns(MethodWeavingContext methodWeavingContext)
 		{
+			if (methodWeavingContext == null)
+			{
+				throw new ArgumentNullException(nameof(methodWeavingContext));
+			}
+
 			MethodBody methodDefinitionBody = methodWeavingContext.MethodDefinition.Body;
 
 			List<Instruction> returns = methodDefinitionBody.Instructions.Where(x => x.OpCode == OpCodes.Ret).ToList();

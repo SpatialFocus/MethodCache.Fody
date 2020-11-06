@@ -20,7 +20,7 @@ namespace SpatialFocus.MethodCache.TestAssembly.Models
 		{
 			CustomObject other = (CustomObject)obj;
 
-			return Age == other.Age && Name == other.Name;
+			return other != null && Age == other.Age && Name == other.Name;
 		}
 
 		public override int GetHashCode()

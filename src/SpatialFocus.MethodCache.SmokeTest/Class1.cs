@@ -2,6 +2,10 @@
 // Copyright (c) Spatial Focus GmbH. All rights reserved.
 // </copyright>
 
+using System;
+
+[assembly: CLSCompliant(false)]
+
 namespace SpatialFocus.MethodCache.SmokeTest
 {
 	using System;

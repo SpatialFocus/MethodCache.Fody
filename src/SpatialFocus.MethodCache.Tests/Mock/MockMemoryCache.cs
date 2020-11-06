@@ -7,7 +7,7 @@ namespace SpatialFocus.MethodCache.Tests.Mock
 	using System.Collections.Generic;
 	using Microsoft.Extensions.Caching.Memory;
 
-	public class MockMemoryCache : IMemoryCache
+	public sealed class MockMemoryCache : IMemoryCache
 	{
 		public int CountGets { get; set; }
 

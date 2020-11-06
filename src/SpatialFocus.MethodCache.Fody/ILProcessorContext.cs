@@ -22,6 +22,11 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public ILProcessorContext Append(Func<ILProcessor, Instruction> action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			Instruction instruction = action(Processor);
 
 			if (CurrentInstruction == null)

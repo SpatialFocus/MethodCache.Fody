@@ -12,22 +12,23 @@ namespace SpatialFocus.MethodCache.Sample
 
 	internal class Program
 	{
-		private static void Main(string[] args)
+		private static void Main()
 		{
 			ServiceCollection serviceCollection = new ServiceCollection();
 			serviceCollection.AddLogging(builder => builder.AddConsole());
 			ServiceProvider buildServiceProvider = serviceCollection.BuildServiceProvider();
 
-			BasicSample basicSample = new BasicSample(new MyMemoryCache(new MemoryCache(new MemoryCacheOptions()),
-				buildServiceProvider.GetRequiredService<ILogger<MyMemoryCache>>()));
+			using MyMemoryCache memoryCacheBasicSample = new MyMemoryCache(new MemoryCache(new MemoryCacheOptions()),
+				buildServiceProvider.GetRequiredService<ILogger<MyMemoryCache>>());
+			BasicSample basicSample = new BasicSample(memoryCacheBasicSample);
 
 			basicSample.Add(1, 2);
 			basicSample.Add(1, 2);
 			basicSample.Add(3, 4);
 
-			GenericSample<int, object> genericSample = new GenericSample<int, object>(
-				new MyMemoryCache(new MemoryCache(new MemoryCacheOptions()),
-					buildServiceProvider.GetRequiredService<ILogger<MyMemoryCache>>()));
+			using MyMemoryCache memoryCacheGenericSample = new MyMemoryCache(new MemoryCache(new MemoryCacheOptions()),
+				buildServiceProvider.GetRequiredService<ILogger<MyMemoryCache>>());
+			GenericSample<int, object> genericSample = new GenericSample<int, object>(memoryCacheGenericSample);
 
 			genericSample.Add<string, Attribute>(1, 2, 3, 4);
 			genericSample.Add<string, Attribute>(1, 2, 3, 4);
