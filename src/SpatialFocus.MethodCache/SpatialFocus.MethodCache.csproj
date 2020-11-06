@@ -2,11 +2,11 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
-		<Version>1.0.0-alpha1</Version>
-		<Title>A method caching Fody addin.</Title>
+		<Version>1.0.0</Version>
+		<Title>A method cache Fody plugin.</Title>
 		<Authors>Dresel,pergerch</Authors>
 		<Company>SpatialFocus</Company>
-		<Description>Allows the use of a [Cache] attribute to cache results of method calls of entire classes or only certain methods.</Description>
+		<Description>A method cache Fody plugin. Caches return values of methods decorated with a [Cache] Attribute. Integrates with the .NET Extension IMemoryCache interface.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Caching, ILWeaving, Fody, Cecil, AOP</PackageTags>
 		<PackageOutputPath>$(SolutionDir)\.nuget</PackageOutputPath>

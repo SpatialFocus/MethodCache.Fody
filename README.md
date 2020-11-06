@@ -29,7 +29,7 @@ Add `<SpatialFocus.MethodCache/>` to [FodyWeavers.xml](https://github.com/Fody/H
 
 ```xml
 <Weavers>
-  <SpatialFocus.MethodCache/>
+    <SpatialFocus.MethodCache/>
 </Weavers>
 ```
 
@@ -41,18 +41,19 @@ Before code:
 [Cache]
 public class BasicSample
 {
-  public BasicSample(IMemoryCache memoryCache)
-  {
-    MemoryCache = memoryCache;
-  }
+    public BasicSample(IMemoryCache memoryCache)
+    {
+        MemoryCache = memoryCache;
+    }
 
-  // MethodCache.Fody will look for a property implementing the Microsoft.Extensions.Caching.Memory.IMemoryCache interface
-  protected IMemoryCache MemoryCache { get; }
+    // MethodCache.Fody will look for a property implementing
+    // the Microsoft.Extensions.Caching.Memory.IMemoryCache interface
+    protected IMemoryCache MemoryCache { get; }
 
-  public int Add(int a, int b)
-  {
-    return a + b;
-  }
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
 }
 ```
 
@@ -62,30 +63,30 @@ What gets compiled
 [Cache]
 public class BasicSample
 {
-  public BasicSample(IMemoryCache memoryCache)
-  {
-    MemoryCache = memoryCache;
-  }
-
-  protected IMemoryCache MemoryCache { get; }
-
-  public int Add(int a, int b)
-  {
-    // Create a unique cache key, based on namespace, class name and method name as first parameter and corresponding
-    // generic class parameters, generic method parameters and method parameters
-    Tuple<string, int, int> key = new Tuple<string, int, int>("Namespace.BasicSample.Add", a, b);
-
-    // Check and return if a cached value exists for key
-    if (MemoryCache.TryGetValue(key, out int value))
+    public BasicSample(IMemoryCache memoryCache)
     {
-      return value;
+        MemoryCache = memoryCache;
     }
 
-    // Before each return statement, save the value that would be returned in the cache
-    value = a + b;
-    MemoryCache.Set<int>(key, value);
-    return value;
-  }
+    protected IMemoryCache MemoryCache { get; }
+
+    public int Add(int a, int b)
+    {
+        // Create a unique cache key, based on namespace, class name and method name as first parameter
+        // and corresponding generic class parameters, generic method parameters and method parameters
+        Tuple<string, int, int> key = new Tuple<string, int, int>("Namespace.BasicSample.Add", a, b);
+
+        // Check and return if a cached value exists for key
+        if (MemoryCache.TryGetValue(key, out int value))
+        {
+            return value;
+        }
+
+        // Before each return statement, save the value that would be returned in the cache
+        value = a + b;
+        MemoryCache.Set<int>(key, value);
+        return value;
+    }
 }
 ```
 
