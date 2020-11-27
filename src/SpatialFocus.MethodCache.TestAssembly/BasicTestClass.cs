@@ -4,6 +4,7 @@
 
 namespace SpatialFocus.MethodCache.TestAssembly
 {
+	using System;
 	using Microsoft.Extensions.Caching.Memory;
 
 	[Cache]
@@ -20,6 +21,17 @@ namespace SpatialFocus.MethodCache.TestAssembly
 		public int Add(int a, int b)
 		{
 			return a + b;
+		}
+
+		[NoCache]
+		public int GetRandomNumber(Random random)
+		{
+			if (random == null)
+			{
+				throw new ArgumentNullException(nameof(random));
+			}
+
+			return random.Next();
 		}
 #pragma warning restore CA1822 // Mark members as static
 	}

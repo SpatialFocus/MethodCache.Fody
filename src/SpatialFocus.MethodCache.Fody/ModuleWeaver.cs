@@ -20,15 +20,19 @@ namespace SpatialFocus.MethodCache.Fody
 
 			foreach (WeavingCandidate weavingCandidate in ModuleDefinition.GetWeavingCandidates(references))
 			{
-				if (weavingCandidate.ClassDefinition.HasCacheAttribute(references) && !weavingCandidate.MethodDefinitions.Any(x => x.IsEligibleForWeaving(references)))
+				if (weavingCandidate.ClassDefinition.HasCacheAttribute(references) && !weavingCandidate.MethodDefinitions
+					.Where(x => !x.HasNoCacheAttribute(references))
+					.Any(x => x.IsEligibleForWeaving(references)))
 				{
-					WriteWarning($"Class {weavingCandidate.ClassDefinition.Resolve().FullName} contains [Cache] attribute but does not contain eligible methods for caching");
+					WriteWarning(
+						$"Class {weavingCandidate.ClassDefinition.Resolve().FullName} contains [Cache] attribute but does not contain eligible methods for caching");
 					continue;
 				}
 
 				if (!weavingCandidate.ClassDefinition.IsEligibleForWeaving(references))
 				{
-					WriteWarning($"Class {weavingCandidate.ClassDefinition.Name} contains [Cache] attribute but does not contain a single non-inherited property implementing IMemoryCache interface");
+					WriteWarning(
+						$"Class {weavingCandidate.ClassDefinition.Name} contains [Cache] attribute but does not contain a single non-inherited property implementing IMemoryCache interface");
 					continue;
 				}
 
@@ -46,6 +50,11 @@ namespace SpatialFocus.MethodCache.Fody
 							break;
 						}
 
+						continue;
+					}
+
+					if (methodDefinition.HasNoCacheAttribute(references))
+					{
 						continue;
 					}
 

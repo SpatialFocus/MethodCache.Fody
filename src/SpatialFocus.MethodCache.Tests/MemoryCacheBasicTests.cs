@@ -4,6 +4,7 @@
 
 namespace SpatialFocus.MethodCache.Tests
 {
+	using System;
 	using global::Fody;
 	using SpatialFocus.MethodCache.Fody;
 	using SpatialFocus.MethodCache.TestAssembly;
@@ -66,6 +67,23 @@ namespace SpatialFocus.MethodCache.Tests
 			Assert.Equal(4, result2);
 			Assert.Equal(2, mockMemoryCache.CountSets);
 			Assert.Equal(2, mockMemoryCache.CountGets);
+		}
+
+		[Fact]
+		public void BasicTest4NoCache()
+		{
+			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+
+			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(MemoryCacheBasicTests.TestResult.Assembly, mockMemoryCache);
+
+			Random random = new Random();
+
+			dynamic result1 = instance.GetRandomNumber(random);
+			dynamic result2 = instance.GetRandomNumber(random);
+
+			Assert.NotEqual(result1, result2);
+			Assert.Equal(0, mockMemoryCache.CountSets);
+			Assert.Equal(0, mockMemoryCache.CountGets);
 		}
 	}
 }

@@ -28,6 +28,24 @@ namespace SpatialFocus.MethodCache.Fody.Extensions
 				classAttribute => classAttribute.AttributeType.Resolve().Equals(cacheAttributeType));
 		}
 
+		public static bool HasNoCacheAttribute(this MethodDefinition methodDefinition, References references)
+		{
+			if (methodDefinition == null)
+			{
+				throw new ArgumentNullException(nameof(methodDefinition));
+			}
+
+			if (references == null)
+			{
+				throw new ArgumentNullException(nameof(references));
+			}
+
+			TypeReference noCacheAttributeType = references.NoCacheAttributeType.Resolve();
+
+			return methodDefinition.CustomAttributes.Any(classAttribute =>
+				classAttribute.AttributeType.Resolve().Equals(noCacheAttributeType));
+		}
+
 		public static bool IsEligibleForWeaving(this MethodDefinition methodDefinition, References references)
 		{
 			if (methodDefinition == null)

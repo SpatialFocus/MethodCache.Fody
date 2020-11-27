@@ -33,5 +33,11 @@ namespace SpatialFocus.MethodCache.Sample.Library
 			MemoryCache.Set<int>(key, value);
 			return value;
 		}
+
+		public int GetRandomNumber(Random random)
+		{
+			// The NoCache attribute was specified for this method, hence no additional code weaved
+			return random.Next();
+		}
 	}
 }
