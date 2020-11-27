@@ -39,7 +39,24 @@ namespace SpatialFocus.MethodCache.Fody.Extensions
 				throw new ArgumentNullException(nameof(references));
 			}
 
-			return typeDefinition.Properties.Where(propertyDefinition =>
+			bool isEligibleForWeaving = typeDefinition.TryGetCacheGetterProperty(references) != null;
+
+			return isEligibleForWeaving;
+		}
+
+		public static PropertyDefinition TryGetCacheGetterProperty(this TypeDefinition typeDefinition, References references)
+		{
+			if (typeDefinition == null)
+			{
+				throw new ArgumentNullException(nameof(typeDefinition));
+			}
+
+			if (references == null)
+			{
+				throw new ArgumentNullException(nameof(references));
+			}
+
+			PropertyDefinition property = typeDefinition.Properties.Where(propertyDefinition =>
 				{
 					TypeDefinition propertyTypeDefinition = propertyDefinition.PropertyType.Resolve();
 					TypeDefinition memoryCacheInterface = references.MemoryCacheInterface.Resolve();
@@ -61,7 +78,15 @@ namespace SpatialFocus.MethodCache.Fody.Extensions
 
 					return false;
 				})
-				.Count() == 1;
+				.SingleOrDefault();
+
+			if (property == null && typeDefinition.BaseType != null)
+			{
+				TypeDefinition baseTypeDefinition = typeDefinition.BaseType.Resolve();
+				property = baseTypeDefinition.TryGetCacheGetterProperty(references);
+			}
+
+			return property;
 		}
 
 		public static CustomAttribute TryGetCacheAttribute(this TypeDefinition typeDefinition, References references)
