@@ -51,16 +51,16 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 
 			// TODO: Check if this can be inherited, extract to class level
-			PropertyDefinition propertyDefinition =
+			List<PropertyDefinition> propertyDefinitions =
 				classWeavingContext.TypeDefinition.TryGetCacheGetterProperty(classWeavingContext.References);
 
 			// TODO: Also check fields
-			if (propertyDefinition == null)
+			if (propertyDefinitions == null || propertyDefinitions.Count != 1)
 			{
-				throw new WeavingException("Property not found");
+				throw new WeavingException("Cache Property not found or multiple properties found.");
 			}
 
-			MethodDefinition methodDefinition = propertyDefinition.GetMethod;
+			MethodDefinition methodDefinition = propertyDefinitions.Single().GetMethod;
 
 			if (methodDefinition.DeclaringType.GenericParameters.Any())
 			{

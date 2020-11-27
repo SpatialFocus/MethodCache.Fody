@@ -32,7 +32,7 @@ namespace SpatialFocus.MethodCache.Fody
 				if (!weavingCandidate.ClassDefinition.IsEligibleForWeaving(references))
 				{
 					WriteWarning(
-						$"Class {weavingCandidate.ClassDefinition.Name} contains [Cache] attribute but does not contain a single non-inherited property implementing IMemoryCache interface");
+						$"Class {weavingCandidate.ClassDefinition.Name} contains [Cache] attribute but does not contain a single property implementing IMemoryCache interface");
 					continue;
 				}
 
