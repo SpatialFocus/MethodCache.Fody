@@ -29,6 +29,8 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public TypeReference MemoryCacheInterface { get; protected set; }
 
+		public TypeReference NoCacheAttributeType { get; set; }
+
 		public MethodReference SetMethod { get; protected set; }
 
 		public MethodReference TryGetValueMethod { get; protected set; }
@@ -49,6 +51,9 @@ namespace SpatialFocus.MethodCache.Fody
 			TypeDefinition cacheAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.CacheAttribute");
 			references.CacheAttributeType = moduleWeaver.ModuleDefinition.ImportReference(cacheAttributeType);
 
+			TypeDefinition noCacheAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.NoCacheAttribute");
+			references.NoCacheAttributeType = moduleWeaver.ModuleDefinition.ImportReference(noCacheAttributeType);
+
 			TypeDefinition type = moduleWeaver.FindTypeDefinition(typeof(Type).FullName);
 			references.TypeType = moduleWeaver.ModuleDefinition.ImportReference(type);
 
@@ -67,7 +72,9 @@ namespace SpatialFocus.MethodCache.Fody
 			references.TryGetValueMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x => x.Name == "TryGetValue"));
 
-			references.SetMethod = moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x => x.Name == "Set" && x.HasParameters && x.Parameters.Count == 3));
+			references.SetMethod =
+				moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x =>
+					x.Name == "Set" && x.HasParameters && x.Parameters.Count == 3));
 
 			return references;
 		}

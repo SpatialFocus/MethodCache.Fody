@@ -67,5 +67,21 @@ namespace SpatialFocus.MethodCache.Tests
 			Assert.Equal(2, mockMemoryCache.CountSets);
 			Assert.Equal(2, mockMemoryCache.CountGets);
 		}
+
+		[Fact]
+		public void BasicTest4NoCache()
+		{
+			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+
+			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(MemoryCacheBasicTests.TestResult.Assembly, mockMemoryCache);
+
+			dynamic result1 = instance.UncachedAdd(1, 2);
+			dynamic result2 = instance.UncachedAdd(2, 2);
+
+			Assert.Equal(3, result1);
+			Assert.Equal(4, result2);
+			Assert.Equal(0, mockMemoryCache.CountSets);
+			Assert.Equal(0, mockMemoryCache.CountGets);
+		}
 	}
 }

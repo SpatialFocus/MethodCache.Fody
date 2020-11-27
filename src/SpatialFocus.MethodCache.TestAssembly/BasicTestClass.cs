@@ -21,6 +21,12 @@ namespace SpatialFocus.MethodCache.TestAssembly
 		{
 			return a + b;
 		}
+
+		[NoCache]
+		public int UncachedAdd(int a, int b)
+		{
+			return a + b;
+		}
 #pragma warning restore CA1822 // Mark members as static
 	}
 }
