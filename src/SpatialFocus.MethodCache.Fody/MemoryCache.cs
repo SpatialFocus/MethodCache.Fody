@@ -51,37 +51,16 @@ namespace SpatialFocus.MethodCache.Fody
 			}
 
 			// TODO: Check if this can be inherited, extract to class level
-			List<PropertyDefinition> propertyDefinitions = classWeavingContext.TypeDefinition.Properties.Where(definition =>
-				{
-					TypeDefinition typeDefinition = definition.PropertyType.Resolve();
-					TypeDefinition memoryCacheInterface = classWeavingContext.References.MemoryCacheInterface.Resolve();
-
-					if (definition.GetMethod.IsStatic)
-					{
-						return false;
-					}
-
-					if (typeDefinition.IsInterface && typeDefinition.Equals(memoryCacheInterface))
-					{
-						return true;
-					}
-
-					if (typeDefinition.Interfaces.Any(x => x.InterfaceType == memoryCacheInterface))
-					{
-						return true;
-					}
-
-					return false;
-				})
-				.ToList();
+			List<PropertyDefinition> propertyDefinitions =
+				classWeavingContext.TypeDefinition.TryGetCacheGetterProperty(classWeavingContext.References);
 
 			// TODO: Also check fields
-			if (propertyDefinitions.Count != 1)
+			if (propertyDefinitions == null || propertyDefinitions.Count != 1)
 			{
-				throw new WeavingException("Property not found");
+				throw new WeavingException("Cache Property not found or multiple properties found.");
 			}
 
-			MethodDefinition methodDefinition = propertyDefinitions.Single().GetMethod;
+			MethodReference methodDefinition = classWeavingContext.TypeDefinition.Module.ImportReference(propertyDefinitions.Single().GetMethod);
 
 			if (methodDefinition.DeclaringType.GenericParameters.Any())
 			{

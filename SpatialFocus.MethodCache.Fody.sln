@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpatialFocus.MethodCache.Sa
 		{81703F57-025F-42C4-AE8B-568E2F56CCE2} = {81703F57-025F-42C4-AE8B-568E2F56CCE2}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialFocus.MethodCache.TestAssembly2", "src\SpatialFocus.MethodCache.TestAssembly2\SpatialFocus.MethodCache.TestAssembly2.csproj", "{766C91B4-5753-4B31-9FBF-684D6754D2DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{E03D9328-B71F-4451-9956-6D28186F84A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E03D9328-B71F-4451-9956-6D28186F84A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E03D9328-B71F-4451-9956-6D28186F84A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{766C91B4-5753-4B31-9FBF-684D6754D2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{766C91B4-5753-4B31-9FBF-684D6754D2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{766C91B4-5753-4B31-9FBF-684D6754D2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{766C91B4-5753-4B31-9FBF-684D6754D2DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{C47814DC-272E-4FB8-A97C-2B6C75F60C76} = {674F705E-E459-490B-B536-3F750485AE33}
 		{88A8C843-A479-42B8-AAF6-8F816C660515} = {674F705E-E459-490B-B536-3F750485AE33}
 		{E03D9328-B71F-4451-9956-6D28186F84A7} = {674F705E-E459-490B-B536-3F750485AE33}
+		{766C91B4-5753-4B31-9FBF-684D6754D2DA} = {674F705E-E459-490B-B536-3F750485AE33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1a3946bb-e6d6-4999-932a-807a80bc0cdb}
