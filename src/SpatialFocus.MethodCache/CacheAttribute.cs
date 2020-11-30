@@ -4,11 +4,12 @@
 
 using System;
 
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 
 namespace SpatialFocus.MethodCache
 {
 	using System;
+	using Microsoft.Extensions.Caching.Memory;
 
 	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false)]
 	public sealed class CacheAttribute : Attribute
@@ -16,5 +17,11 @@ namespace SpatialFocus.MethodCache
 		public CacheAttribute()
 		{
 		}
+
+		public double AbsoluteExpirationRelativeToNow { get; set; }
+
+		public CacheItemPriority Priority { get; set; }
+
+		public double SlidingExpiration { get; set; }
 	}
 }

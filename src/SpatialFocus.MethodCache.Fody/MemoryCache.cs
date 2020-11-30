@@ -135,6 +135,16 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new ArgumentNullException(nameof(methodWeavingContext));
 			}
 
+			CustomAttribute cacheAttribute =
+				methodWeavingContext.MethodDefinition.TryGetCacheAttribute(methodWeavingContext.ClassWeavingContext.References);
+
+			if (cacheAttribute == null)
+			{
+				cacheAttribute =
+					methodWeavingContext.ClassWeavingContext.TypeDefinition.TryGetCacheAttribute(methodWeavingContext.ClassWeavingContext
+						.References);
+			}
+
 			MethodBody methodDefinitionBody = methodWeavingContext.MethodDefinition.Body;
 
 			List<Instruction> returns = methodDefinitionBody.Instructions.Where(x => x.OpCode == OpCodes.Ret).ToList();
@@ -149,10 +159,58 @@ namespace SpatialFocus.MethodCache.Fody
 				processorContext = processorContext.Append(x => x.Create(OpCodes.Ldarg_0))
 					.Append(x => x.Create(OpCodes.Call, methodWeavingContext.ClassWeavingContext.CacheGetterMethod))
 					.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.CacheKeyVariableIndex.Value))
-					.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.ResultVariableIndex.Value))
-					.Append(x => x.Create(OpCodes.Call,
+					.Append(x => x.Create(OpCodes.Ldloc, methodWeavingContext.ResultVariableIndex.Value));
+
+				if (cacheAttribute.Properties.Any())
+				{
+					processorContext = processorContext.Append(x => x.Create(OpCodes.Newobj,
+						methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsConstructor));
+
+					foreach (CustomAttributeNamedArgument customAttributeNamedArgument in cacheAttribute.Properties)
+					{
+						switch (customAttributeNamedArgument.Name)
+						{
+							case "AbsoluteExpirationRelativeToNow":
+								processorContext = processorContext.Append(x => x.Create(OpCodes.Dup))
+									.Append(x => x.Create(OpCodes.Ldc_R8, (double)customAttributeNamedArgument.Argument.Value))
+									.Append(x => x.Create(OpCodes.Call,
+										methodWeavingContext.ClassWeavingContext.References.TimeSpanFromSecondsMethod))
+									.Append(x => x.Create(OpCodes.Newobj,
+										methodWeavingContext.ClassWeavingContext.References.NullableTimeSpanConstructor))
+									.Append(x => x.Create(OpCodes.Callvirt,
+										methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsAbsoluteExpirationRelativeToNowSetter));
+								break;
+
+							case "SlidingExpiration":
+								processorContext = processorContext.Append(x => x.Create(OpCodes.Dup))
+									.Append(x => x.Create(OpCodes.Ldc_R8, (double)customAttributeNamedArgument.Argument.Value))
+									.Append(x => x.Create(OpCodes.Call,
+										methodWeavingContext.ClassWeavingContext.References.TimeSpanFromSecondsMethod))
+									.Append(x => x.Create(OpCodes.Newobj,
+										methodWeavingContext.ClassWeavingContext.References.NullableTimeSpanConstructor))
+									.Append(x => x.Create(OpCodes.Callvirt,
+										methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsSlidingExpirationSetter));
+								break;
+
+							case "Priority":
+								processorContext = processorContext.Append(x => x.Create(OpCodes.Dup))
+									.Append(x => x.Create(OpCodes.Ldc_I4, (int)customAttributeNamedArgument.Argument.Value))
+									.Append(x => x.Create(OpCodes.Callvirt,
+										methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsPrioritySetter));
+								break;
+						}
+					}
+
+					processorContext = processorContext.Append(x => x.Create(OpCodes.Call,
+						methodWeavingContext.ClassWeavingContext.References.GetGenericSetMethodWithMemoryCacheEntryOptions(
+							methodWeavingContext.MethodDefinition.ReturnType)));
+				}
+				else
+				{
+					processorContext = processorContext.Append(x => x.Create(OpCodes.Call,
 						methodWeavingContext.ClassWeavingContext.References.GetGenericSetMethod(methodWeavingContext.MethodDefinition
 							.ReturnType)));
+				}
 
 				// Not necessary, just return the return value from .Set
 				////.Append(x => x.Create(OpCodes.Pop))

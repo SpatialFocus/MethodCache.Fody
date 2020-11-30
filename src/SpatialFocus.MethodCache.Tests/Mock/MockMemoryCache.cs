@@ -4,57 +4,59 @@
 
 namespace SpatialFocus.MethodCache.Tests.Mock
 {
-	using System.Collections.Generic;
 	using Microsoft.Extensions.Caching.Memory;
+	using Microsoft.Extensions.DependencyInjection;
 
 	public sealed class MockMemoryCache : IMemoryCache
 	{
+		public MockMemoryCache(IMemoryCache memoryCache)
+		{
+			MemoryCache = memoryCache;
+		}
+
+		public static MockMemoryCache Default
+		{
+			get
+			{
+				ServiceCollection serviceCollection = new ServiceCollection();
+				serviceCollection.AddMemoryCache();
+				return new MockMemoryCache(serviceCollection.BuildServiceProvider().GetRequiredService<IMemoryCache>());
+			}
+		}
+
 		public int CountGets { get; set; }
 
 		public int CountSets { get; set; }
 
 		public object LastCreatedEntryKey { get; set; }
 
-		private Dictionary<object, ICacheEntry> Storage { get; } = new Dictionary<object, ICacheEntry>();
+		public ICacheEntry LastCreatedCacheEntry { get; set; }
+
+		private IMemoryCache MemoryCache { get; }
 
 		public ICacheEntry CreateEntry(object key)
 		{
 			CountSets++;
 
-			if (Storage.ContainsKey(key))
-			{
-				return Storage[key];
-			}
-
-			MockCacheEntry cacheEntry = new MockCacheEntry();
-			Storage.Add(key, cacheEntry);
-
-			LastCreatedEntryKey = key;
+			ICacheEntry cacheEntry = MemoryCache.CreateEntry(key);
+			LastCreatedCacheEntry = cacheEntry;
+			LastCreatedEntryKey = cacheEntry.Key;
 
 			return cacheEntry;
 		}
 
-		public void Dispose()
-		{
-		}
+		public void Dispose() => MemoryCache?.Dispose();
 
 		public void Remove(object key)
 		{
-			Storage.Remove(key);
+			MemoryCache.Remove(key);
 		}
 
 		public bool TryGetValue(object key, out object value)
 		{
 			CountGets++;
 
-			if (Storage.ContainsKey(key))
-			{
-				value = Storage[key].Value;
-				return true;
-			}
-
-			value = null;
-			return false;
+			return MemoryCache.TryGetValue(key, out value);
 		}
 	}
 }
