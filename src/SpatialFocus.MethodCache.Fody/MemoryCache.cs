@@ -60,7 +60,7 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new WeavingException("Cache Property not found or multiple properties found.");
 			}
 
-			MethodDefinition methodDefinition = propertyDefinitions.Single().GetMethod;
+			MethodReference methodDefinition = classWeavingContext.TypeDefinition.Module.ImportReference(propertyDefinitions.Single().GetMethod);
 
 			if (methodDefinition.DeclaringType.GenericParameters.Any())
 			{
