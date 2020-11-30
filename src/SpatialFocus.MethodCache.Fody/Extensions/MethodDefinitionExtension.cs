@@ -65,13 +65,15 @@ namespace SpatialFocus.MethodCache.Fody.Extensions
 				return false;
 			}
 
+			bool hasOutParameter = methodDefinition.Parameters.Any(x => x.IsOut);
+
 			bool isSpecialName = methodDefinition.IsSpecialName || methodDefinition.IsGetter || methodDefinition.IsSetter ||
 				methodDefinition.IsConstructor;
 
 			bool hasCompilerGeneratedAttribute =
 				methodDefinition.CustomAttributes.Any(attribute => attribute.AttributeType.Resolve().Equals(typeDefinition));
 
-			return !isSpecialName && !hasCompilerGeneratedAttribute;
+			return !hasOutParameter && !isSpecialName && !hasCompilerGeneratedAttribute;
 		}
 
 		public static CustomAttribute TryGetCacheAttribute(this MethodDefinition methodDefinition, References references)

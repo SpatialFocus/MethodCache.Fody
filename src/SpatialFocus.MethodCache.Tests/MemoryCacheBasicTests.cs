@@ -111,5 +111,20 @@ namespace SpatialFocus.MethodCache.Tests
 			Assert.Equal(1, mockMemoryCache.CountSets);
 			Assert.Equal(1, mockMemoryCache.CountGets);
 		}
+
+		[Fact]
+		public void BasicTest7NotWeavingMethodWithOutParameter()
+		{
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
+
+			dynamic instance = TestHelpers.CreateInstance<BasicTestClass>(MemoryCacheBasicTests.TestResult.Assembly, mockMemoryCache);
+
+			dynamic result = instance.AddAndSubtract(1, 2, out int difference);
+
+			Assert.Equal(3, result);
+			Assert.Equal(-1, difference);
+			Assert.Equal(0, mockMemoryCache.CountSets);
+			Assert.Equal(0, mockMemoryCache.CountGets);
+		}
 	}
 }

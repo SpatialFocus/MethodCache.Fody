@@ -22,6 +22,12 @@ namespace SpatialFocus.MethodCache.TestAssembly
 			return a + b;
 		}
 
+		public int AddAndSubtract(int a, int b, out int difference)
+		{
+			difference = a - b;
+			return a + b;
+		}
+
 		[NoCache]
 		public int UncachedAdd(int a, int b)
 		{
