@@ -87,7 +87,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void BasicTest5DerivedClass()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance = TestHelpers.CreateInstance<DerivedTestClass>(MemoryCacheBasicTests.TestResult.Assembly, mockMemoryCache);
 
