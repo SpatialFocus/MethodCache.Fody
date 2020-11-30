@@ -27,11 +27,29 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public MethodReference GetTypeFromHandleMethod { get; protected set; }
 
+		public MethodReference MemoryCacheEntryOptionsAbsoluteExpirationRelativeToNowSetter { get; set; }
+
+		public MethodReference MemoryCacheEntryOptionsConstructor { get; set; }
+
+		public MethodReference MemoryCacheEntryOptionsPrioritySetter { get; set; }
+
+		public MethodReference MemoryCacheEntryOptionsSlidingExpirationSetter { get; set; }
+
+		public TypeReference MemoryCacheEntryOptionsType { get; set; }
+
 		public TypeReference MemoryCacheInterface { get; protected set; }
 
 		public TypeReference NoCacheAttributeType { get; set; }
 
+		public MethodReference NullableTimeSpanConstructor { get; set; }
+
 		public MethodReference SetMethod { get; protected set; }
+
+		public MethodReference SetMethodWithMemoryCacheEntryOptions { get; protected set; }
+
+		public MethodReference TimeSpanFromSecondsMethod { get; set; }
+
+		public TypeReference TimeSpanType { get; set; }
 
 		public MethodReference TryGetValueMethod { get; protected set; }
 
@@ -63,11 +81,38 @@ namespace SpatialFocus.MethodCache.Fody
 			references.GetTypeFromHandleMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(type.Methods.Single(x => x.Name == nameof(Type.GetTypeFromHandle)));
 
+			TypeDefinition timeSpanType = moduleWeaver.FindTypeDefinition(typeof(TimeSpan).FullName);
+			references.TimeSpanType = moduleWeaver.ModuleDefinition.ImportReference(timeSpanType);
+			references.TimeSpanFromSecondsMethod =
+				moduleWeaver.ModuleDefinition.ImportReference(timeSpanType.Methods.Single(x => x.Name == nameof(TimeSpan.FromSeconds)));
+
+			TypeDefinition nullableType = moduleWeaver.FindTypeDefinition(typeof(Nullable<>).FullName);
+			references.NullableTimeSpanConstructor =
+				moduleWeaver.ModuleDefinition.ImportReference(nullableType.GetConstructors()
+					.Single()
+					.MakeHostInstanceGeneric(references.TimeSpanType));
+
 			TypeDefinition memoryCacheInterface = moduleWeaver.FindTypeDefinition("Microsoft.Extensions.Caching.Memory.IMemoryCache");
 			references.MemoryCacheInterface = moduleWeaver.ModuleDefinition.ImportReference(memoryCacheInterface);
 
 			TypeDefinition cacheExtensions = moduleWeaver.FindTypeDefinition("Microsoft.Extensions.Caching.Memory.CacheExtensions");
 			references.CacheExtensionsType = moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions);
+
+			TypeDefinition memoryCacheEntryOptions =
+				moduleWeaver.FindTypeDefinition("Microsoft.Extensions.Caching.Memory.MemoryCacheEntryOptions");
+			references.MemoryCacheEntryOptionsType = moduleWeaver.ModuleDefinition.ImportReference(memoryCacheEntryOptions);
+			references.MemoryCacheEntryOptionsConstructor =
+				moduleWeaver.ModuleDefinition.ImportReference(memoryCacheEntryOptions.GetConstructors().Single(x => !x.Parameters.Any()));
+			references.MemoryCacheEntryOptionsAbsoluteExpirationRelativeToNowSetter =
+				moduleWeaver.ModuleDefinition.ImportReference(memoryCacheEntryOptions.Properties
+					.Single(x => x.Name == "AbsoluteExpirationRelativeToNow")
+					.SetMethod);
+			references.MemoryCacheEntryOptionsSlidingExpirationSetter =
+				moduleWeaver.ModuleDefinition.ImportReference(memoryCacheEntryOptions.Properties.Single(x => x.Name == "SlidingExpiration")
+					.SetMethod);
+			references.MemoryCacheEntryOptionsPrioritySetter =
+				moduleWeaver.ModuleDefinition.ImportReference(
+					memoryCacheEntryOptions.Properties.Single(x => x.Name == "Priority").SetMethod);
 
 			references.TryGetValueMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x => x.Name == "TryGetValue"));
@@ -75,6 +120,12 @@ namespace SpatialFocus.MethodCache.Fody
 			references.SetMethod =
 				moduleWeaver.ModuleDefinition.ImportReference(cacheExtensions.Methods.Single(x =>
 					x.Name == "Set" && x.HasParameters && x.Parameters.Count == 3));
+
+			references.SetMethodWithMemoryCacheEntryOptions = moduleWeaver.ModuleDefinition.ImportReference(
+				cacheExtensions.Methods.Single(x =>
+					x.Name == "Set" && x.HasParameters && x.Parameters.Count == 4 &&
+					moduleWeaver.ModuleDefinition.ImportReference(x.Parameters.Last().ParameterType).Resolve() ==
+					references.MemoryCacheEntryOptionsType.Resolve()));
 
 			return references;
 		}
@@ -98,6 +149,9 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public MethodReference GetGenericSetMethod(TypeReference type) =>
 			ModuleWeaver.ModuleDefinition.ImportReference(SetMethod.MakeGeneric(type));
+
+		public MethodReference GetGenericSetMethodWithMemoryCacheEntryOptions(TypeReference type) =>
+			ModuleWeaver.ModuleDefinition.ImportReference(SetMethodWithMemoryCacheEntryOptions.MakeGeneric(type));
 
 		public MethodReference GetSystemTupleConstructor(params TypeReference[] types)
 		{

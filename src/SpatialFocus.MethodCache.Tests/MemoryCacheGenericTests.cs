@@ -27,7 +27,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericClassTest1NonGenericMethod()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericTestClass<int>>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -42,7 +42,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericClassTest2GenericTClassMethod()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericTestClass<int>>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -57,7 +57,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericMethodTest1NonGenericMethod()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericMethodTestClass>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -72,7 +72,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericMethodTest2GenericMethodInt()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericMethodTestClass>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -88,7 +88,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericMethodTest3GenericMethodString()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericMethodTestClass>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -103,7 +103,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericMethodTest4GenericMethodCustomObjectFromTestAssembly()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericMethodTestClass>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);
@@ -118,7 +118,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void GenericMethodTest5GenericClassNonGenericMethod()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<GenericTestClass<int>>(MemoryCacheGenericTests.TestResult.Assembly, mockMemoryCache);

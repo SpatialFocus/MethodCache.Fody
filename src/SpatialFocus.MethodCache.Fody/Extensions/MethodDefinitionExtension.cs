@@ -73,5 +73,23 @@ namespace SpatialFocus.MethodCache.Fody.Extensions
 
 			return !isSpecialName && !hasCompilerGeneratedAttribute;
 		}
+
+		public static CustomAttribute TryGetCacheAttribute(this MethodDefinition methodDefinition, References references)
+		{
+			if (methodDefinition == null)
+			{
+				throw new ArgumentNullException(nameof(methodDefinition));
+			}
+
+			if (references == null)
+			{
+				throw new ArgumentNullException(nameof(references));
+			}
+
+			TypeReference cacheAttributeType = references.CacheAttributeType.Resolve();
+
+			return methodDefinition.CustomAttributes.SingleOrDefault(classAttribute =>
+				classAttribute.AttributeType.Resolve().Equals(cacheAttributeType));
+		}
 	}
 }

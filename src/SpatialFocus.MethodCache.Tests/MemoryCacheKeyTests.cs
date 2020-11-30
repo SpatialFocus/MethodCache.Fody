@@ -27,7 +27,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest1Parameterless()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -47,7 +47,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest2WithParameter()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -68,7 +68,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest3With6Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -94,7 +94,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest4With7Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -121,7 +121,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest4With8Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -149,7 +149,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest5With9Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -178,7 +178,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest6With13Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -211,7 +211,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest7With14Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
@@ -245,7 +245,7 @@ namespace SpatialFocus.MethodCache.Tests
 		[Fact]
 		public void CacheKeyTest8With15Parameters()
 		{
-			using MockMemoryCache mockMemoryCache = new MockMemoryCache();
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
 
 			dynamic instance =
 				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
