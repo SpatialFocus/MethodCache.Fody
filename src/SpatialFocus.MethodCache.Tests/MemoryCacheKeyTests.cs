@@ -276,5 +276,29 @@ namespace SpatialFocus.MethodCache.Tests
 			Assert.Equal(14, key[14]);
 			Assert.Equal(15, key[15]);
 		}
+
+		[Fact]
+		public void CacheKeyTest9WithNoKeyParameters()
+		{
+			using MockMemoryCache mockMemoryCache = MockMemoryCache.Default;
+
+			dynamic instance =
+				TestHelpers.CreateInstance<MemoryCacheKeyTestClass>(MemoryCacheKeyTests.TestResult.Assembly, mockMemoryCache);
+
+			dynamic result1 = instance.WithNoKeyParameter(1, 2, 3);
+			dynamic result2 = instance.WithNoKeyParameter(1, 2, 4);
+
+			Assert.Equal(3, result1);
+			Assert.Equal(3, result2);
+
+			Assert.Equal(1, mockMemoryCache.CountSets);
+			Assert.Equal(2, mockMemoryCache.CountGets);
+
+			ITuple key = (ITuple)mockMemoryCache.LastCreatedEntryKey;
+			Assert.Equal(3, key.Length);
+			Assert.Equal("SpatialFocus.MethodCache.TestAssembly.MemoryCacheKeyTestClass.WithNoKeyParameter", key[0]);
+			Assert.Equal(1, key[1]);
+			Assert.Equal(2, key[2]);
+		}
 	}
 }
