@@ -31,7 +31,9 @@ namespace SpatialFocus.MethodCache.Fody
 					methodWeavingContext.MethodDefinition.DeclaringType.GenericParameters.Count))
 				.Concat(Enumerable.Repeat(methodWeavingContext.ClassWeavingContext.References.TypeType,
 					methodWeavingContext.MethodDefinition.GenericParameters.Count))
-				.Concat(methodWeavingContext.MethodDefinition.Parameters.Select(x => x.ParameterType))
+				.Concat(methodWeavingContext.MethodDefinition.Parameters
+					.Where(x => !x.HasCustomAttributes || !x.HasNoKeyAttribute(methodWeavingContext.ClassWeavingContext.References))
+					.Select(x => x.ParameterType))
 				.ToList();
 
 			tupleTypeReferences.ToList().ForEach(tupleTypeReference => methodWeavingContext.CacheKeyParameterTypes.Add(tupleTypeReference));
@@ -60,7 +62,8 @@ namespace SpatialFocus.MethodCache.Fody
 				throw new WeavingException("Cache Property not found or multiple properties found.");
 			}
 
-			MethodReference methodDefinition = classWeavingContext.TypeDefinition.Module.ImportReference(propertyDefinitions.Single().GetMethod);
+			MethodReference methodDefinition =
+				classWeavingContext.TypeDefinition.Module.ImportReference(propertyDefinitions.Single().GetMethod);
 
 			if (methodDefinition.DeclaringType.GenericParameters.Any())
 			{
@@ -95,11 +98,15 @@ namespace SpatialFocus.MethodCache.Fody
 					.Append(x => x.Create(OpCodes.Call, methodWeavingContext.ClassWeavingContext.References.GetTypeFromHandleMethod));
 			}
 
-			for (int i = 0; i < methodWeavingContext.MethodDefinition.Parameters.Count; i++)
-			{
-				int value = i;
+			int value = 1;
 
-				processorContext = processorContext.Append(x => x.Create(OpCodes.Ldarg, value + 1));
+			foreach (ParameterDefinition parameter in methodWeavingContext.MethodDefinition.Parameters)
+			{
+				if (!parameter.HasCustomAttributes || !parameter.HasNoKeyAttribute(methodWeavingContext.ClassWeavingContext.References))
+				{
+					processorContext = processorContext.Append(x => x.Create(OpCodes.Ldarg, value));
+					value++;
+				}
 			}
 
 			return MemoryCache
@@ -157,7 +164,8 @@ namespace SpatialFocus.MethodCache.Fody
 									.Append(x => x.Create(OpCodes.Newobj,
 										methodWeavingContext.ClassWeavingContext.References.NullableTimeSpanConstructor))
 									.Append(x => x.Create(OpCodes.Callvirt,
-										methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsAbsoluteExpirationRelativeToNowSetter));
+										methodWeavingContext.ClassWeavingContext.References
+											.MemoryCacheEntryOptionsAbsoluteExpirationRelativeToNowSetter));
 								break;
 
 							case "SlidingExpiration":
@@ -168,7 +176,8 @@ namespace SpatialFocus.MethodCache.Fody
 									.Append(x => x.Create(OpCodes.Newobj,
 										methodWeavingContext.ClassWeavingContext.References.NullableTimeSpanConstructor))
 									.Append(x => x.Create(OpCodes.Callvirt,
-										methodWeavingContext.ClassWeavingContext.References.MemoryCacheEntryOptionsSlidingExpirationSetter));
+										methodWeavingContext.ClassWeavingContext.References
+											.MemoryCacheEntryOptionsSlidingExpirationSetter));
 								break;
 
 							case "Priority":

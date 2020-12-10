@@ -64,6 +64,15 @@ namespace SpatialFocus.MethodCache.TestAssembly
 		{
 			return a;
 		}
+
+#pragma warning disable IDE0060 // Remove unused parameter
+#pragma warning disable CA1801 // Remove unused parameter
+		public int WithNoKeyParameter(int a, int b, [NoKey] int c)
+		{
+			return a + b;
+		}
+#pragma warning restore IDE0060 // Remove unused parameter
+#pragma warning restore CA1801 // Remove unused parameter
 #pragma warning restore CA1822 // Mark members as static
 	}
 }

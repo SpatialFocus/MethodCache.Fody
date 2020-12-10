@@ -41,6 +41,8 @@ namespace SpatialFocus.MethodCache.Fody
 
 		public TypeReference NoCacheAttributeType { get; set; }
 
+		public TypeReference NoKeyAttributeType { get; set; }
+
 		public MethodReference NullableTimeSpanConstructor { get; set; }
 
 		public MethodReference SetMethod { get; protected set; }
@@ -68,6 +70,9 @@ namespace SpatialFocus.MethodCache.Fody
 
 			TypeDefinition cacheAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.CacheAttribute");
 			references.CacheAttributeType = moduleWeaver.ModuleDefinition.ImportReference(cacheAttributeType);
+
+			TypeDefinition noKeyAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.NoKeyAttribute");
+			references.NoKeyAttributeType = moduleWeaver.ModuleDefinition.ImportReference(noKeyAttributeType);
 
 			TypeDefinition noCacheAttributeType = moduleWeaver.FindTypeDefinition("SpatialFocus.MethodCache.NoCacheAttribute");
 			references.NoCacheAttributeType = moduleWeaver.ModuleDefinition.ImportReference(noCacheAttributeType);
